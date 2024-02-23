@@ -1,14 +1,15 @@
 const Objectives = require('../models/objectivesModel')
+const axios = require('axios')
 
 
 const createObj = async(req ,res)=>{
 
     const user = req.user
-    const {title , objectives , budget} = req.body
+    const {title , objective , budget} = req.body
 
     try {
         
-        if(!title || !objectives ){
+        if(!title || !objective ){
             throw Error('Please fill the required fields')
         }
 
@@ -16,7 +17,7 @@ const createObj = async(req ,res)=>{
 
 
         if(obj){
-            throw Error('There is already this title in other objectives')
+            throw Error('There is already this title in other objective')
         }
 
         if(title.length < 5){
@@ -27,8 +28,8 @@ const createObj = async(req ,res)=>{
             throw Error('Title is should have 25 letters as maximum')
         }
 
-        if(objectives.length > 250 ){
-            throw Error('Objectives is should have 250 letters as maximum')
+        if(objective.length > 250 ){
+            throw Error('Objective is should have 250 letters as maximum')
         }
 
 
@@ -36,10 +37,18 @@ const createObj = async(req ,res)=>{
             throw Error('Budget should be above 0')
         }
 
-        const data = await Objectives.create({user : user._id ,title , objectives , budget , recommendation : ''})
+        let recommendation = ''
+
+        await axios.post('http://127.0.0.1:8000/recommendation',{objective , budget : toString(budget) })
+        .then((res)=>{
+            recommendation = res.data.recommendation
+        })
+        .catch(err=>{throw Error('There is an error in the model')})
+
+        const data = await Objectives.create({title , objective , budget , recommendation})
 
 
-        res.status(201).json({data})
+        res.status(201).json(data)
 
     } catch (error) {
         res.status(500).json({error : error.message})

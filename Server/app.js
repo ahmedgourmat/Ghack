@@ -34,7 +34,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.use('/auth', authRouter)
-app.use('/api/v1/objectives', authMiddleware, objectivesRouter)
+app.use('/api/v1/objectives', objectivesRouter)
 app.use('/api/v1/plan', authMiddleware, planRouter)
 app.use('/api/v1/courses' , authMiddleware , courseRouter)
 
