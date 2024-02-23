@@ -20,7 +20,17 @@ const UserSchema  = new mongoose.Schema({
     picture : {
         type:String,
         default : "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
-    }
+    },
+    services : String,
+    aboutMe : String,
+    country : String,
+    socialMedia :Array,
+    plans : [
+        {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'Plan'
+        }
+    ]
 },
 {
     timestamps : true
