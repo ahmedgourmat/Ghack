@@ -6,7 +6,8 @@ const User = require('../models/userModel')
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:8080/auth/google/callback"
+    callbackURL: "http://localhost:8080/auth/google/callback",
+    scope:["profile" , "email"]
 },
     function (accessToken, refreshToken, profile, cb) {
         // Check if a user with the provided email exists
@@ -46,11 +47,9 @@ passport.use(new GoogleStrategy({
 
 
 passport.serializeUser((user, done) => {
-    done(null, user.id);
+    done(null, user);
 });
 
-passport.deserializeUser((id, done) => {
-    User.findById(id, (err, user) => {
-        done(err, user);
-    });
+passport.deserializeUser((user, done) => {
+        done(null, user);
 });

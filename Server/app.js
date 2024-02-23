@@ -6,8 +6,8 @@ require('./middlewares/passportAuth')
 const cors = require('cors')
 const authRouter = require('./routes/authRoutes')
 const passport = require('passport')
-const session = require('express-session')
 const cookieSession = require('cookie-session')
+
 
 const port = process.env.PORT
 
@@ -20,10 +20,10 @@ app.use(cors(
 ))
 
 
-app.use(session({
-    secret: 'qsdqsdat',
-    resave: false,
-    saveUninitialized: false
+app.use(cookieSession({
+    name : 'session' ,
+    keys : ['Ahmed'] ,
+    maxAge : 24 * 60 * 60 * 1000
 }));
 
 app.use(passport.initialize())
