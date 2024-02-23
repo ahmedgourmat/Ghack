@@ -1,34 +1,19 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import './App.css'
-import {BrowserRouter , Routes , Route} from 'react-router-dom'
-import Login from './pages/login/Login'
-import Home from './pages/Home'
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
+import Home from "./pages/Home";
+import LoginPage from "./pages/loginclerk/LoginPage";
 
 function App() {
-  const [user, setuser] = useState(null)
-
-
-  useEffect(()=>{
-    const fetchData = async()=>{
-      await axios.get('http://localhost:8080/auth/login/success')
-      .then(res=>{
-        console.log(res)
-      })
-      .catch(err=>console.log(err))
-    }
-
-    fetchData()
-  },[])
+  // eslint-disable-next-line no-unused-vars
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/login' element={<Login/>} />
-        <Route path='/' element={<Home/>} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={<Home />} />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;
