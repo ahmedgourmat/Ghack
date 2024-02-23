@@ -5,8 +5,10 @@ require('dotenv').config()
 require('./middlewares/passportAuth')
 const cors = require('cors')
 const authRouter = require('./routes/authRoutes')
+const objectivesRouter = require('./routes/objectivesRoutes')
 const passport = require('passport')
 const cookieSession = require('cookie-session')
+const authMiddleware = require('./middlewares/jwtMiddleware')
 
 
 const port = process.env.PORT
@@ -30,6 +32,8 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.use('/auth', authRouter)
+app.use('/api/v1/objectives',authMiddleware, authRouter)
+
 
 const start = () => {
     connectDB(process.env.MONGOO_URI)
